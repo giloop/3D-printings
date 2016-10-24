@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Appel un script 
+"""Automatisation de la création de plaques pour impressions 3D
+1. appel un script openscad pour une liste de paramètres et génère les STL.
+2. Assemble les STL en grille puis regénère des STL pour impression 3D.
+Author : giloop.theloop@gmail.com
 """
+
 # Call system command with unicode
 import subprocess
 # Write text files with unicode encodings
@@ -17,6 +21,15 @@ repFic = os.path.dirname(os.path.realpath(__file__))
 lPrenoms = ['Nathan', 'Margot', 'Erika', 'Naoma', 'Yaniss', 'Baptiste', 'Jules', 
             'Neil', 'Ines', u'Lanaïc', 'Lucas', 'Axel', 'Jeanne', 'Pauline', 
             'Emmie', 'Lylou', 'Briana', u'Kéziah','Lyna', 'Julien', 'Gabin', u'Mickaël', 'Lina'];
+#lPrenoms = ['Nathan', 'Margot', 'Erika', 'Naoma', 'Yaniss', 'Baptiste', 'Jules', 
+#            'Neil', 'Ines', 'Lucas', 'Axel', 'Jeanne', 'Pauline', 
+#            'Emmie', 'Lylou', 'Briana', 'Lyna', 'Julien'];
+
+#%% Chemin vers openscad
+# Linux :
+openscad = u"openscad"
+# Windows :
+#openscad = u'"M:\Imprimante 3D\openscad-2015.02.05\openscad.exe"'
 
 #%% Appel de openscad pour générer les STL unitaires
 # Les commandes générées sont par exemple :
@@ -28,7 +41,7 @@ for nom in lPrenoms:
 		print u" -> fichier existant : non régénéré"
 	else:
 		print u" -> fichier non existant"
-		strCommand = u"openscad -o {} -D \"prenom=\\\"{}\\\"\" PlaquePrenom.scad".format(outStl, nom)
+		strCommand = u"{} -o {} -D \"prenom=\\\"{}\\\"\" PlaquePrenom.scad".format(openscad, outStl, nom)
 		print u"{}".format(strCommand)
 		subprocess.call(strCommand, shell=True)
 
@@ -50,8 +63,8 @@ for idx,nom in enumerate(lPrenoms):
         ficTxt = codecs.open(nomFic, "a", encoding='utf-8')
         ficTxt.write(u"union() {\n")
     elif (idx==0):
-		print(u"Le fichier {} existe\n!! Effacez les fichiers scad générés avant de relancer le script".format(nomFic))
-		sys.exit()
+        print(u"Le fichier {} existe\n!! Effacez les fichiers scad générés avant de relancer le script".format(nomFic))
+        sys.exit()
 		
     idxCol = idx/nbParCol
     idxLig = idx%nbParCol
@@ -62,7 +75,7 @@ for idx,nom in enumerate(lPrenoms):
         ficTxt.write(u"}")
         ficTxt.close()
         # Creation du STL avec Openscad
-        strCommand = u"openscad -o Assemblage-{}.stl {}".format(idxFic, nomFic)
+        strCommand = u"{} -o Assemblage-{}.stl {}".format(openscad, idxFic, nomFic)
         print u"{}".format(strCommand)
         subprocess.call(strCommand, shell=True)
         # Fichier suivant
@@ -75,7 +88,7 @@ if (not(ficTxt.closed)):
     ficTxt.write(u"}\n")
     ficTxt.close()
     # Creation du STL avec Openscad
-    strCommand = u"openscad -o Assemblage-{}.stl {}".format(idxFic, nomFic)
+    strCommand = u"{} -o Assemblage-{}.stl {}".format(openscad, idxFic, nomFic)
     print "{}".format(strCommand)
     subprocess.call(strCommand, shell=True)
 
