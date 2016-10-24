@@ -45,7 +45,7 @@ An interesting feature of Openscad is that you can call it from the command line
 
 It is then simple to automate the calls to Openscad for each firstname in a Python script that:
 * create a STL file for each firstname (in a Python list) by calling openscad. I struggled a bit to have firstname encoded in UTF-8 so I had to choose specific imports,
-* Create N openscad scripts that assemble the firstnames in grids of STL files, 12 files per grid :
+* Create N openscad scripts that gathers the firstnames in grids of STL files, 12 files per grid :
   * Assemblage-1.scad, Assemblage-2.scad, ...
 * export the generated script to STL files with Openscad ready for 3D printing.
 
@@ -54,5 +54,24 @@ This gives :
 
 An example of "grid gathering" script generated with Openscad is:
 ```cpp
-
+union() {
+ 	translate([0,0,0]) import("Nathan.stl");
+	translate([0,25,0]) import("Margot.stl");
+	translate([0,50,0]) import("Erika.stl");
+	translate([0,75,0]) import("Naoma.stl");
+	translate([0,100,0]) import("Yaniss.stl");
+	translate([0,125,0]) import("Baptiste.stl");
+	translate([70,0,0]) import("Jules.stl");
+	translate([70,25,0]) import("Neil.stl");
+	translate([70,50,0]) import("Ines.stl");
+	translate([70,75,0]) import("Lucas.stl");
+	translate([70,100,0]) import("Axel.stl");
+	translate([70,125,0]) import("Jeanne.stl");
+}
 ```
+
+Notes :
+-------
+The scripts were written and tested under Linux. You will have to make minor changes to make it work under windows : the name of te font in the openscad script, and the path to the openscad exe in the Python script. 
+
+I just tested quickly under Windows and couldn't get unicode first names working (no accents). Any help appreciated.
