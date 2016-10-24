@@ -1,7 +1,7 @@
 3D-printings
 ============
 
-Automate your 3D printgs with Openscad and Python
+Automate your 3D printings with Openscad and Python
 ----------------------------------------------------------
 These 3D prints were automated with Openscad and Python: 
 
