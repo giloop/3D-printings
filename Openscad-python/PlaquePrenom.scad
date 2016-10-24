@@ -1,4 +1,8 @@
+// Linux:
 use </usr/share/fonts/truetype/stardos-stencil/StardosStencil-Bold.ttf>;
+// Windows :
+// use <StardosStencil-Bold.ttf>;
+
 prenom = "Kéziah";
 font = "StardosStencil";  // "Liberation Sans";
 style = ""; // ":style=Bold";
